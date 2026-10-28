@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>『HACKED UNIVERSITY』</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20242b;
+      --muted: #68707d;
+      --line: #e1e5eb;
+      --accent: #334155;
+      --surface: #f6f7f9;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 32px 16px;
+      background: var(--surface);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.65;
+    }
+    main {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 28px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 8px 28px rgba(20, 30, 50, .05);
+    }
+    h1 { margin: 0 0 8px; font-size: clamp(1.5rem, 4vw, 2rem); }
+    .intro, .muted { color: var(--muted); }
+    .topline {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px; margin: 24px 0 10px; font-size: .9rem;
+    }
+    .track { height: 8px; background: #e9edf2; border-radius: 99px; overflow: hidden; }
+    .bar { height: 100%; width: 0; background: var(--accent); transition: width .25s ease; }
+    .question-card {
+      margin-top: 24px; padding: 22px;
+      border: 1px solid var(--line); border-radius: 14px;
+    }
+    .eyebrow { color: var(--muted); font-size: .85rem; margin: 0 0 8px; }
+    h2 { margin: 0 0 12px; font-size: 1.25rem; }
+    #questionText { white-space: pre-wrap; margin: 0 0 20px; }
+    label { display: block; margin-bottom: 7px; font-weight: 600; }
+    input {
+      width: 100%; padding: 13px 14px; font: inherit;
+      border: 1px solid #cbd2dc; border-radius: 9px;
+    }
+    input:focus { outline: 3px solid #dbeafe; border-color: #64748b; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    button {
+      border: 1px solid var(--accent); border-radius: 9px;
+      padding: 11px 16px; font: inherit; cursor: pointer;
+    }
+    .primary { color: #fff; background: var(--accent); }
+    .secondary { color: var(--accent); background: #fff; }
+    button:focus-visible { outline: 3px solid #bfdbfe; outline-offset: 2px; }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    #feedback { min-height: 1.7em; margin: 14px 0 0; font-weight: 600; }
+    #hintBox {
+      margin-top: 14px; padding: 13px 14px; background: #f1f5f9;
+      border-radius: 9px;
+    }
+    [hidden] { display: none !important; }
+    .complete { text-align: center; padding: 34px 10px; }
+    .complete h2 { font-size: 1.7rem; }
+    @media (max-width: 480px) {
+      body { padding: 16px 10px; }
+      main { padding: 20px 16px; }
+      .question-card { padding: 17px; }
+      .actions button { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>『HACKED UNIVERSITY』</h1>
+    <p class="intro">答えを入力して、次の謎へ進もう。</p>
+
+    <section id="game">
+      <div class="topline">
+        <span id="progressLabel">第1問 / 3問</span>
+        <span id="percentLabel">0%クリア</span>
+      </div>
+      <div class="track" role="progressbar" aria-label="クリア状況"
+           aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack">
+        <div class="bar" id="progressBar"></div>
+      </div>
+
+      <section class="question-card">
+        <form id="answerForm">
+          <label for="answerInput">あなたの答え</label>
+          <input id="answerInput" name="answer" type="text"
+                 placeholder="答えを入力してください" autocomplete="off" required>
+          <div class="actions">
+            <button class="primary" type="submit" id="submitButton">回答する</button>
+            <button class="secondary" type="button" id="hintButton">ヒントを見る</button>
+          </div>
+        </form>
+
+        <p id="feedback" role="status" aria-live="polite"></p>
+        <div id="hintBox" hidden></div>
+        <div class="actions" id="nextActions" hidden>
+          <button class="primary" type="button" id="nextButton">次の問題へ</button>
+        </div>
+      </section>
+    </section>
+
+    <section id="completeScreen" class="complete" hidden>
+      <h2>クリア！</h2>
+      <p>すべての謎を解き明かしました。おめでとう！</p>
+      <button class="primary" type="button" id="restartButton">もう一度遊ぶ</button>
+    </section>
+    <p class="muted" style="font-size:.82rem;margin:22px 0 0">
+      ※ 問題文は配布資料をご覧ください。
+    </p>
+  </main>
+
+  <script>
+    // イベントごとに別の保存領域を使いたい場合は、EVENT_IDを変更してください。
+    const EVENT_ID = "nazotoki-event-2026";
+    const STORAGE_KEY = `${EVENT_ID}:progress`;
+
+    // 問題文は配布資料で確認してもらい、ここには答えとヒントだけを設定します。
+    const questions = [
+     {
+  answers: ["わいろ","賄賂","ワイロ"],
+  hints: [
+    "ヒント1：3つの漢字は右に寄っています。",
+    "ヒント2：3つの漢字の右に漢字が入りそうだ。",
+    "ヒント3：へんに魚を入れてみよう。",
+  ]
+}
+      {
+        answers: ["イルカ"],
+        hint: "海にすむ、頭のよい動物です。"
+      },
+      {
+        answers: ["星", "ほし"],
+        hint: "晴れた夜に空を見上げてみよう。"
+      }
+    ];
+
+    function loadProgress() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return { currentIndex: 0, solved: [] };
+        const parsed = JSON.parse(saved);
+        const solved = Array.isArray(parsed.solved)
+          ? parsed.solved.filter(n => Number.isInteger(n) && n >= 0 && n < questions.length)
+          : [];
+        const uniqueSolved = [...new Set(solved)];
+        let index = Number.isInteger(parsed.currentIndex) ? parsed.currentIndex : 0;
+        index = Math.max(0, Math.min(index, questions.length));
+        while (index < questions.length && uniqueSolved.includes(index)) index++;
+        return { currentIndex: index, solved: uniqueSolved };
+      } catch {
+        return { currentIndex: 0, solved: [] };
+      }
+    }
+
+    let progress = loadProgress();
+    let currentIndex = progress.currentIndex;
+    let solvedQuestions = new Set(progress.solved);
+    let hintShown = false;
+    let solved = currentIndex < questions.length && solvedQuestions.has(currentIndex);
+
+    const $ = (id) => document.getElementById(id);
+    const form = $("answerForm");
+    const input = $("answerInput");
+
+    function saveProgress() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          currentIndex,
+          solved: [...solvedQuestions],
+          updatedAt: new Date().toISOString()
+        }));
+      } catch {
+        $("feedback").textContent =
+          "このブラウザでは進行状況を保存できません。通常モードで開いているか確認してください。";
+      }
+    }
+
+    // 全角英数字・空白・一部の句読点などの表記ゆれを吸収します。
+    function normalizeAnswer(value) {
+      return value
+        .normalize("NFKC")
+        .toLowerCase()
+        .replace(/[\s\u3000]/g, "")
+        .replace(/[。、，．,.!?！？「」『』"'“”]/g, "");
+    }
+
+    function updateProgress() {
+      const percent = Math.round((solvedQuestions.size / questions.length) * 100);
+      const shownIndex = Math.min(currentIndex + 1, questions.length);
+      $("progressLabel").textContent =
+        currentIndex >= questions.length
+          ? `${questions.length}問クリア`
+          : `第${shownIndex}問 / ${questions.length}問`;
+      $("percentLabel").textContent = `${percent}%クリア`;
+      $("progressBar").style.width = `${percent}%`;
+      $("progressTrack").setAttribute("aria-valuenow", String(percent));
+    }
+
+    function showComplete() {
+      $("game").hidden = true;
+      $("completeScreen").hidden = false;
+      $("progressBar").style.width = "100%";
+      $("progressTrack").setAttribute("aria-valuenow", "100");
+      $("percentLabel").textContent = "100%クリア";
+      $("progressLabel").textContent = `${questions.length}問クリア`;
+    }
+
+    function renderQuestion() {
+      if (currentIndex >= questions.length) {
+        showComplete();
+        return;
+      }
+
+      const q = questions[currentIndex];
+      solved = solvedQuestions.has(currentIndex);
+      hintShown = false;
+
+      $("feedback").textContent = solved ? "この問題はクリア済みです。" : "";
+      $("hintBox").hidden = true;
+      $("hintBox").textContent = "";
+      $("hintButton").disabled = solved;
+      $("nextActions").hidden = !solved;
+      $("submitButton").disabled = solved;
+      input.disabled = solved;
+      input.value = "";
+      $("nextButton").textContent =
+        currentIndex === questions.length - 1 ? "クリア画面へ" : "次の問題へ";
+      updateProgress();
+      if (!solved) input.focus();
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (solved) return;
+
+      const guess = normalizeAnswer(input.value);
+      if (!guess) {
+        $("feedback").textContent = "答えを入力してください。";
+        return;
+      }
+
+      const accepted = questions[currentIndex].answers
+        .some(answer => normalizeAnswer(answer) === guess);
+
+      if (accepted) {
+        solved = true;
+        solvedQuestions.add(currentIndex);
+        saveProgress();
+        $("feedback").textContent = "正解！進行状況を保存しました。";
+        $("submitButton").disabled = true;
+        input.disabled = true;
+        $("hintButton").disabled = true;
+        $("nextActions").hidden = false;
+        $("nextButton").textContent =
+          currentIndex === questions.length - 1 ? "クリア画面へ" : "次の問題へ";
+        updateProgress();
+      } else {
+        $("feedback").textContent = "不正解です。もう一度考えてみよう！";
+      }
+    });
+
+    $("hintButton").addEventListener("click", () => {
+      hintShown = true;
+      $("hintBox").textContent = `ヒント：${questions[currentIndex].hint}`;
+      $("hintBox").hidden = false;
+    });
+
+    $("nextButton").addEventListener("click", () => {
+      if (!solved) return;
+      currentIndex++;
+      saveProgress();
+      renderQuestion();
+    });
+
+    $("restartButton").addEventListener("click", () => {
+      // 「もう一度遊ぶ」はこの端末に保存された今回の進捗を消去します。
+      currentIndex = 0;
+      solvedQuestions = new Set();
+      solved = false;
+      try { localStorage.removeItem(STORAGE_KEY); } catch {}
+      $("completeScreen").hidden = true;
+      $("game").hidden = false;
+      renderQuestion();
+    });
+
+    // 全問クリア済みなら、再読み込み後もクリア画面を表示します。
+    if (currentIndex >= questions.length) {
+      showComplete();
+    } else {
+      renderQuestion();
+    }
+  </script>
+</body>
+</html>
