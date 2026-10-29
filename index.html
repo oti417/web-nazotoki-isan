@@ -1,306 +1,266 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>『HACKED UNIVERSITY』</title>
-  <style>
-    :root {
-      color-scheme: light;
-      --ink: #20242b;
-      --muted: #68707d;
-      --line: #e1e5eb;
-      --accent: #334155;
-      --surface: #f6f7f9;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      padding: 32px 16px;
-      background: var(--surface);
-      color: var(--ink);
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-      line-height: 1.65;
-    }
-    main {
-      max-width: 620px;
-      margin: 0 auto;
-      padding: 28px;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: 0 8px 28px rgba(20, 30, 50, .05);
-    }
-    h1 { margin: 0 0 8px; font-size: clamp(1.5rem, 4vw, 2rem); }
-    .intro, .muted { color: var(--muted); }
-    .topline {
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 12px; margin: 24px 0 10px; font-size: .9rem;
-    }
-    .track { height: 8px; background: #e9edf2; border-radius: 99px; overflow: hidden; }
-    .bar { height: 100%; width: 0; background: var(--accent); transition: width .25s ease; }
-    .question-card {
-      margin-top: 24px; padding: 22px;
-      border: 1px solid var(--line); border-radius: 14px;
-    }
-    .eyebrow { color: var(--muted); font-size: .85rem; margin: 0 0 8px; }
-    h2 { margin: 0 0 12px; font-size: 1.25rem; }
-    #questionText { white-space: pre-wrap; margin: 0 0 20px; }
-    label { display: block; margin-bottom: 7px; font-weight: 600; }
-    input {
-      width: 100%; padding: 13px 14px; font: inherit;
-      border: 1px solid #cbd2dc; border-radius: 9px;
-    }
-    input:focus { outline: 3px solid #dbeafe; border-color: #64748b; }
-    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
-    button {
-      border: 1px solid var(--accent); border-radius: 9px;
-      padding: 11px 16px; font: inherit; cursor: pointer;
-    }
-    .primary { color: #fff; background: var(--accent); }
-    .secondary { color: var(--accent); background: #fff; }
-    button:focus-visible { outline: 3px solid #bfdbfe; outline-offset: 2px; }
-    button:disabled { opacity: .45; cursor: not-allowed; }
-    #feedback { min-height: 1.7em; margin: 14px 0 0; font-weight: 600; }
-    #hintBox {
-      margin-top: 14px; padding: 13px 14px; background: #f1f5f9;
-      border-radius: 9px;
-    }
-    [hidden] { display: none !important; }
-    .complete { text-align: center; padding: 34px 10px; }
-    .complete h2 { font-size: 1.7rem; }
-    @media (max-width: 480px) {
-      body { padding: 16px 10px; }
-      main { padding: 20px 16px; }
-      .question-card { padding: 17px; }
-      .actions button { flex: 1; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050505">
+<title>消された遺産と最後の暗号｜謎解き</title>
+<style>
+:root{
+  --bg:#050505; --paper:#f8f0d8; --gold:#d7b85a; --orange:#ff8a1c;
+  --red:#f02b36; --cyan:#4deaff; --line:rgba(255,255,255,.35);
+  --green:#caffd4;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{
+  margin:0; min-height:100vh; color:var(--paper); background:#050505;
+  font-family:"Yu Mincho","Hiragino Mincho ProN","Noto Serif JP",serif;
+  overflow-x:hidden;
+}
+body:before{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.18;
+  background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.08) 4px,transparent 5px),
+             radial-gradient(ellipse at 50% 42%,rgba(104,110,83,.3),transparent 48%);
+}
+main{position:relative;z-index:1;width:min(900px,100%);margin:0 auto;padding:0 18px 38px}
+.poster{
+  position:relative; min-height:390px; padding:26px clamp(16px,5vw,48px) 34px;
+  overflow:hidden; border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 50% 72%,rgba(100,105,80,.52),transparent 48%),
+    linear-gradient(115deg,transparent 0 30%,rgba(0,0,0,.72) 30% 40%,transparent 40% 64%,rgba(0,0,0,.6) 64% 74%,transparent 74%),
+    #050505;
+}
+.film-holes{display:flex;justify-content:space-between;gap:14px;overflow:hidden;white-space:nowrap;margin:0 -30px 22px}
+.film-holes span{flex:0 0 30px;width:30px;height:30px;border:1px solid #777;border-radius:50%;background:rgba(255,255,255,.015)}
+.date{margin:0 0 18px;text-align:right;color:var(--orange);font:italic 700 clamp(1.15rem,4vw,2rem)/1.2 Georgia,serif;letter-spacing:.05em}
+.poster-kicker{margin:0 0 5px;text-align:right;font-size:clamp(1rem,3vw,1.45rem);font-weight:900}
+.poster-title{
+  position:relative; margin:0; max-width:760px; font-size:clamp(2.8rem,11vw,6.7rem);
+  font-weight:900; line-height:.98; letter-spacing:-.07em; text-align:center;
+  color:var(--paper); text-shadow:3px 2px 0 var(--red),-3px -2px 0 var(--cyan),0 0 18px rgba(255,210,100,.25);
+  transform:rotate(-2deg);
+}
+.poster-subtitle{
+  position:relative; margin:18px 0 0; text-align:center; font-size:clamp(2rem,7vw,4rem);
+  line-height:1; font-weight:900; letter-spacing:.06em; color:var(--gold);
+  text-shadow:2px 2px 0 #050505,-2px -1px 0 var(--cyan),3px 0 0 var(--red);
+}
+.poster-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:28px;font-weight:900;letter-spacing:.06em}
+.poster-bottom span:last-child{font-size:.9rem;color:var(--gold)}
+.seal{
+  position:absolute;width:104px;height:104px;border:2px solid rgba(210,40,45,.8);border-radius:50%;
+  background:radial-gradient(circle,rgba(120,0,15,.9),rgba(40,0,6,.9) 70%);
+  box-shadow:0 0 0 6px rgba(160,20,30,.08),0 0 25px rgba(230,0,20,.18);
+  left:50%;top:57%;transform:translate(-50%,-50%) rotate(-18deg);opacity:.68;
+}
+.seal:before{content:"封";position:absolute;inset:0;display:grid;place-items:center;font-size:3rem;font-weight:900;color:#210006}
+.seal:after{content:"";position:absolute;inset:9px;border:1px solid rgba(255,80,80,.5);border-radius:50%}
+main > .film-holes{margin-top:18px}
+.intro{margin:24px 0 10px;color:var(--gold);font-size:.9rem;letter-spacing:.12em}
+.system-note{padding:12px 14px;border-left:3px solid var(--orange);background:rgba(255,138,28,.07);font-size:.95rem}
+.status{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:16px 0;padding-bottom:12px;border-bottom:1px dashed #66552b;color:#cbbd91;font: .76rem/1.5 Consolas,monospace;letter-spacing:.04em}
+.status b{color:var(--red)}
+.topline{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:20px 0 9px;color:var(--gold);font:700 .85rem/1.4 Consolas,monospace;letter-spacing:.04em}
+.track{height:10px;border:1px solid #716039;background:#15130c;overflow:hidden}
+.bar{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--orange),var(--gold));box-shadow:0 0 12px rgba(255,138,28,.6);transition:width .25s}
+.question-card{margin-top:22px;padding:clamp(17px,4vw,30px);border:1px solid #76643b;background:linear-gradient(135deg,rgba(26,23,17,.97),rgba(5,5,5,.98));box-shadow:0 0 22px rgba(215,184,90,.06)}
+.eyebrow{margin:0 0 16px;color:#b9a879;font: .8rem Consolas,monospace;letter-spacing:.08em}
+label{display:block;margin-bottom:8px;color:var(--gold);font-weight:800;letter-spacing:.06em}
+input{width:100%;min-width:0;padding:14px;background:#090909;border:1px solid #78643b;border-radius:0;color:#fff8df;font:inherit;font-size:1rem}
+input::placeholder{color:#877b5e}
+input:focus{outline:2px solid var(--orange);outline-offset:2px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+button{padding:12px 16px;border:1px solid var(--gold);border-radius:0;font:700 .95rem/1.3 inherit;cursor:pointer;transition:background .15s}
+button.primary{background:var(--gold);color:#090909}
+button.secondary{background:#080808;color:var(--paper)}
+button:hover:not(:disabled){filter:brightness(1.15);box-shadow:0 0 13px rgba(255,138,28,.2)}
+button:disabled{opacity:.4;cursor:not-allowed}
+button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+#feedback{min-height:1.7em;margin:14px 0 0;color:#fff0c6;font-weight:700}
+#hintBox{margin-top:14px;padding:14px;border:1px solid #61502d;border-left:3px solid var(--orange);background:rgba(255,138,28,.06);white-space:pre-line;line-height:1.8}
+[hidden]{display:none!important}
+.complete{text-align:center;padding:34px 10px}
+.complete h2{font-size:clamp(1.8rem,6vw,3rem);color:var(--gold);text-shadow:2px 0 var(--red),-2px 0 var(--cyan)}
+.terminal-footer{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:24px;border:1px solid #5b4c2c;color:#c9b77f;font: .8rem/1.7 Consolas,monospace}
+.terminal-footer>div{padding:16px;min-width:0}
+.terminal-footer>div+div{border-left:1px solid #5b4c2c}
+.terminal-footer strong{display:block;margin-bottom:7px;color:var(--orange)}
+.terminal-footer p{margin:3px 0;overflow-wrap:anywhere}
+.stay-hidden{display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;font-size:clamp(1rem,3vw,1.8rem);letter-spacing:.05em;color:var(--paper);text-shadow:2px 0 var(--red),-2px 0 var(--cyan)}
+.stay-hidden span{color:var(--orange)}
+.footer-note{color:#827653;font-size:.75rem;line-height:1.7;margin-top:14px}
+@media(max-width:520px){
+ main{padding:0 10px 24px}.poster{min-height:340px;padding:22px 14px 26px}
+ .seal{width:76px;height:76px}.seal:before{font-size:2.2rem}
+ .poster-bottom{align-items:flex-end;font-size:.8rem}
+ .actions button{flex:1 1 100%}.terminal-footer{grid-template-columns:1fr}
+ .terminal-footer>div+div{border-left:0;border-top:1px solid #5b4c2c;min-height:80px}
+}
+</style>
 </head>
 <body>
-  <main>
-    <h1>『HACKED UNIVERSITY』</h1>
-    <p class="intro">答えを入力して、次の謎へ進もう。</p>
+<main>
+  <header class="poster" aria-label="イベントタイトル">
+    <div class="film-holes" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="seal" aria-hidden="true"></div>
+    <p class="poster-kicker">〈中級〉</p>
+    <h1 class="poster-title">消された遺産と</h1>
+    <p class="poster-subtitle">最後の暗号</p>
+    <div class="poster-bottom"><span>追手門学院大学　文芸部</span><span>SECRET FILE // 05</span></div>
+  </header>
+  <div class="film-holes" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 
-    <section id="game">
-      <div class="topline">
-        <span id="progressLabel">第1問 / 3問</span>
-        <span id="percentLabel">0%クリア</span>
-      </div>
-      <div class="track" role="progressbar" aria-label="クリア状況"
-           aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack">
-        <div class="bar" id="progressBar"></div>
-      </div>
+  <p class="intro">ARCHIVE ACCESS // PUZZLE TERMINAL</p>
+  <div class="system-note"><strong>MISSION:</strong> 5つの謎を解き、失われた記録を復元せよ。</div>
+  <div class="status"><span>● CONNECTION: <b>ENCRYPTED</b></span><span>LOCAL SAVE // ENABLED</span></div>
 
-      <section class="question-card">
-        <form id="answerForm">
-          <label for="answerInput">あなたの答え</label>
-          <input id="answerInput" name="answer" type="text"
-                 placeholder="答えを入力してください" autocomplete="off" required>
-          <div class="actions">
-            <button class="primary" type="submit" id="submitButton">回答する</button>
-            <button class="secondary" type="button" id="hintButton">ヒントを見る</button>
-          </div>
-        </form>
-
-        <p id="feedback" role="status" aria-live="polite"></p>
-        <div id="hintBox" hidden></div>
-        <div class="actions" id="nextActions" hidden>
-          <button class="primary" type="button" id="nextButton">次の問題へ</button>
+  <section id="game">
+    <div class="topline"><span id="progressLabel">PROBLEM 01 / 05</span><span id="percentLabel">0% COMPLETE</span></div>
+    <div class="track" role="progressbar" aria-label="クリア状況" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack"><div class="bar" id="progressBar"></div></div>
+    <section class="question-card">
+      <p class="eyebrow">RESTRICTED ACCESS // ANSWER REQUIRED</p>
+      <form id="answerForm">
+        <label for="answerInput">答えを入力してください <span aria-hidden="true">&gt;_</span></label>
+        <input id="answerInput" name="answer" type="text" placeholder="ここに答えを入力" autocomplete="off" required>
+        <div class="actions">
+          <button class="primary" type="submit" id="submitButton">回答を送信　↗</button>
+          <button class="secondary" type="button" id="hintButton">ヒント1を見る　›</button>
         </div>
-      </section>
+      </form>
+      <p id="feedback" role="status" aria-live="polite"></p>
+      <div id="hintBox" hidden></div>
+      <div class="actions" id="nextActions" hidden><button class="primary" type="button" id="nextButton">次の問題へ　»</button></div>
     </section>
+  </section>
 
-    <section id="completeScreen" class="complete" hidden>
-      <h2>クリア！</h2>
-      <p>すべての謎を解き明かしました。おめでとう！</p>
-      <button class="primary" type="button" id="restartButton">もう一度遊ぶ</button>
-    </section>
-    <p class="muted" style="font-size:.82rem;margin:22px 0 0">
-      ※ 問題文は配布資料をご覧ください。
-    </p>
-  </main>
+  <section id="completeScreen" class="complete" hidden>
+    <h2>ARCHIVE RESTORED</h2>
+    <p>すべての謎が解除されました。記録の復元に成功しました。</p>
+    <button class="primary" type="button" id="restartButton">最初から再挑戦する</button>
+  </section>
 
-  <script>
-    // イベントごとに別の保存領域を使いたい場合は、EVENT_IDを変更してください。
-    const EVENT_ID = "nazotoki-event-2026";
-    const STORAGE_KEY = `${EVENT_ID}:progress`;
+  <section class="terminal-footer" aria-label="システム情報">
+    <div><strong>SYSTEM LOG</strong><p>&gt; progress_save : ON</p><p>&gt; device_storage : LOCAL</p><p>&gt; solved_records : AUTO UPDATE</p><p>&gt; connection_status : SECURE</p></div>
+    <div class="stay-hidden">真実は、記録の中に。<span>_</span></div>
+  </section>
+  <p class="footer-note">※ 問題文は配布資料をご覧ください。回答とヒントは各問題の設定に合わせて編集してください。</p>
+</main>
+<script>
+const EVENT_ID = "nazotoki-event-2026";
+const STORAGE_KEY = `${EVENT_ID}:progress`;
 
-    // 問題文は配布資料で確認してもらい、ここには答えとヒントだけを設定します。
-    const questions = [
-     {
-  answers: ["わいろ","賄賂","ワイロ"],
-  hints: [
-    "ヒント1：3つの漢字は右に寄っています。",
-    "ヒント2：3つの漢字の右に漢字が入りそうだ。",
-    "ヒント3：へんに魚を入れてみよう。",
-  ]
+// 問題1〜3はこれまでの設定を維持しています。
+// 問題4・5は仮のサンプルです。イベントの問題に合わせて answers / hints を変更してください。
+const questions = [
+  { answers:["フライパン"], hints:[
+    "ヒント1：料理をするときに使う道具です。",
+    "ヒント2：フライ返しと一緒に使うことがあります。",
+    "ヒント3：「フライ〇〇」といいます。"
+  ]},
+  { answers:["イルカ"], hints:[
+    "ヒント1：海にすむ動物です。",
+    "ヒント2：頭がよく、ジャンプが得意です。",
+    "ヒント3：「イ」から始まる3文字の動物です。"
+  ]},
+  { answers:["星","ほし"], hints:[
+    "ヒント1：夜空に見えるものです。",
+    "ヒント2：晴れた夜にたくさん見つかります。",
+    "ヒント3：「ほ〇」と読みます。"
+  ]},
+  { answers:["かぎ","鍵"], hints:[
+    "ヒント1：扉を開けるときに使います。",
+    "ヒント2：なくすと困る小さな道具です。",
+    "ヒント3：「か〇」と読みます。"
+  ]},
+  { answers:["月","つき"], hints:[
+    "ヒント1：夜空に見えることがあります。",
+    "ヒント2：満ち欠けします。",
+    "ヒント3：「つ〇」と読みます。"
+  ]}
+];
+
+function loadProgress(){
+  try{
+    const saved=localStorage.getItem(STORAGE_KEY);
+    if(!saved)return {currentIndex:0,solved:[]};
+    const parsed=JSON.parse(saved);
+    const solved=Array.isArray(parsed.solved)?parsed.solved.filter(n=>Number.isInteger(n)&&n>=0&&n<questions.length):[];
+    const uniqueSolved=[...new Set(solved)];
+    let index=Number.isInteger(parsed.currentIndex)?parsed.currentIndex:0;
+    index=Math.max(0,Math.min(index,questions.length));
+    while(index<questions.length&&uniqueSolved.includes(index))index++;
+    return {currentIndex:index,solved:uniqueSolved};
+  }catch{return {currentIndex:0,solved:[]};}
 }
-      {
-        answers: ["イルカ"],
-        hint: "海にすむ、頭のよい動物です。"
-      },
-      {
-        answers: ["星", "ほし"],
-        hint: "晴れた夜に空を見上げてみよう。"
-      }
-    ];
+let progress=loadProgress();
+let currentIndex=progress.currentIndex;
+let solvedQuestions=new Set(progress.solved);
+let hintsShown=0;
+let solved=currentIndex<questions.length&&solvedQuestions.has(currentIndex);
+const $=id=>document.getElementById(id);
+const form=$("answerForm"),input=$("answerInput");
 
-    function loadProgress() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (!saved) return { currentIndex: 0, solved: [] };
-        const parsed = JSON.parse(saved);
-        const solved = Array.isArray(parsed.solved)
-          ? parsed.solved.filter(n => Number.isInteger(n) && n >= 0 && n < questions.length)
-          : [];
-        const uniqueSolved = [...new Set(solved)];
-        let index = Number.isInteger(parsed.currentIndex) ? parsed.currentIndex : 0;
-        index = Math.max(0, Math.min(index, questions.length));
-        while (index < questions.length && uniqueSolved.includes(index)) index++;
-        return { currentIndex: index, solved: uniqueSolved };
-      } catch {
-        return { currentIndex: 0, solved: [] };
-      }
-    }
-
-    let progress = loadProgress();
-    let currentIndex = progress.currentIndex;
-    let solvedQuestions = new Set(progress.solved);
-    let hintShown = false;
-    let solved = currentIndex < questions.length && solvedQuestions.has(currentIndex);
-
-    const $ = (id) => document.getElementById(id);
-    const form = $("answerForm");
-    const input = $("answerInput");
-
-    function saveProgress() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          currentIndex,
-          solved: [...solvedQuestions],
-          updatedAt: new Date().toISOString()
-        }));
-      } catch {
-        $("feedback").textContent =
-          "このブラウザでは進行状況を保存できません。通常モードで開いているか確認してください。";
-      }
-    }
-
-    // 全角英数字・空白・一部の句読点などの表記ゆれを吸収します。
-    function normalizeAnswer(value) {
-      return value
-        .normalize("NFKC")
-        .toLowerCase()
-        .replace(/[\s\u3000]/g, "")
-        .replace(/[。、，．,.!?！？「」『』"'“”]/g, "");
-    }
-
-    function updateProgress() {
-      const percent = Math.round((solvedQuestions.size / questions.length) * 100);
-      const shownIndex = Math.min(currentIndex + 1, questions.length);
-      $("progressLabel").textContent =
-        currentIndex >= questions.length
-          ? `${questions.length}問クリア`
-          : `第${shownIndex}問 / ${questions.length}問`;
-      $("percentLabel").textContent = `${percent}%クリア`;
-      $("progressBar").style.width = `${percent}%`;
-      $("progressTrack").setAttribute("aria-valuenow", String(percent));
-    }
-
-    function showComplete() {
-      $("game").hidden = true;
-      $("completeScreen").hidden = false;
-      $("progressBar").style.width = "100%";
-      $("progressTrack").setAttribute("aria-valuenow", "100");
-      $("percentLabel").textContent = "100%クリア";
-      $("progressLabel").textContent = `${questions.length}問クリア`;
-    }
-
-    function renderQuestion() {
-      if (currentIndex >= questions.length) {
-        showComplete();
-        return;
-      }
-
-      const q = questions[currentIndex];
-      solved = solvedQuestions.has(currentIndex);
-      hintShown = false;
-
-      $("feedback").textContent = solved ? "この問題はクリア済みです。" : "";
-      $("hintBox").hidden = true;
-      $("hintBox").textContent = "";
-      $("hintButton").disabled = solved;
-      $("nextActions").hidden = !solved;
-      $("submitButton").disabled = solved;
-      input.disabled = solved;
-      input.value = "";
-      $("nextButton").textContent =
-        currentIndex === questions.length - 1 ? "クリア画面へ" : "次の問題へ";
-      updateProgress();
-      if (!solved) input.focus();
-    }
-
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-      if (solved) return;
-
-      const guess = normalizeAnswer(input.value);
-      if (!guess) {
-        $("feedback").textContent = "答えを入力してください。";
-        return;
-      }
-
-      const accepted = questions[currentIndex].answers
-        .some(answer => normalizeAnswer(answer) === guess);
-
-      if (accepted) {
-        solved = true;
-        solvedQuestions.add(currentIndex);
-        saveProgress();
-        $("feedback").textContent = "正解！進行状況を保存しました。";
-        $("submitButton").disabled = true;
-        input.disabled = true;
-        $("hintButton").disabled = true;
-        $("nextActions").hidden = false;
-        $("nextButton").textContent =
-          currentIndex === questions.length - 1 ? "クリア画面へ" : "次の問題へ";
-        updateProgress();
-      } else {
-        $("feedback").textContent = "不正解です。もう一度考えてみよう！";
-      }
-    });
-
-    $("hintButton").addEventListener("click", () => {
-      hintShown = true;
-      $("hintBox").textContent = `ヒント：${questions[currentIndex].hint}`;
-      $("hintBox").hidden = false;
-    });
-
-    $("nextButton").addEventListener("click", () => {
-      if (!solved) return;
-      currentIndex++;
-      saveProgress();
-      renderQuestion();
-    });
-
-    $("restartButton").addEventListener("click", () => {
-      // 「もう一度遊ぶ」はこの端末に保存された今回の進捗を消去します。
-      currentIndex = 0;
-      solvedQuestions = new Set();
-      solved = false;
-      try { localStorage.removeItem(STORAGE_KEY); } catch {}
-      $("completeScreen").hidden = true;
-      $("game").hidden = false;
-      renderQuestion();
-    });
-
-    // 全問クリア済みなら、再読み込み後もクリア画面を表示します。
-    if (currentIndex >= questions.length) {
-      showComplete();
-    } else {
-      renderQuestion();
-    }
-  </script>
+function saveProgress(){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify({currentIndex,solved:[...solvedQuestions],updatedAt:new Date().toISOString()}));}
+  catch{$("feedback").textContent="このブラウザでは進行状況を保存できません。";}
+}
+function normalizeAnswer(value){
+  return value.normalize("NFKC").toLowerCase().replace(/[\s\u3000]/g,"").replace(/[。、，．,.!?！？「」『』"'“”]/g,"");
+}
+function updateProgress(){
+  const percent=Math.round(solvedQuestions.size/questions.length*100);
+  const shownIndex=Math.min(currentIndex+1,questions.length);
+  $("progressLabel").textContent=currentIndex>=questions.length?`ALL ${questions.length} PROBLEMS CLEARED`:`PROBLEM ${String(shownIndex).padStart(2,"0")} / ${String(questions.length).padStart(2,"0")}`;
+  $("percentLabel").textContent=`${percent}% COMPLETE`;
+  $("progressBar").style.width=`${percent}%`;
+  $("progressTrack").setAttribute("aria-valuenow",String(percent));
+}
+function showComplete(){
+  $("game").hidden=true;$("completeScreen").hidden=false;
+  $("progressBar").style.width="100%";$("progressTrack").setAttribute("aria-valuenow","100");
+  $("percentLabel").textContent="100% COMPLETE";
+  $("progressLabel").textContent=`ALL ${questions.length} PROBLEMS CLEARED`;
+}
+function renderQuestion(){
+  if(currentIndex>=questions.length){showComplete();return;}
+  const q=questions[currentIndex]; solved=solvedQuestions.has(currentIndex); hintsShown=0;
+  $("hintButton").textContent="ヒント1を見る　›";
+  $("feedback").textContent=solved?"この問題はクリア済みです。":"";
+  $("hintBox").hidden=true;$("hintBox").textContent="";
+  $("hintButton").disabled=solved;$("nextActions").hidden=!solved;
+  $("submitButton").disabled=solved;input.disabled=solved;input.value="";
+  $("nextButton").textContent=currentIndex===questions.length-1?"クリア画面へ":"次の問題へ　»";
+  updateProgress();if(!solved)input.focus();
+}
+form.addEventListener("submit",event=>{
+  event.preventDefault();if(solved)return;
+  const guess=normalizeAnswer(input.value);
+  if(!guess){$("feedback").textContent="答えを入力してください。";return;}
+  const accepted=questions[currentIndex].answers.some(answer=>normalizeAnswer(answer)===guess);
+  if(accepted){
+    solved=true;solvedQuestions.add(currentIndex);saveProgress();
+    $("feedback").textContent="正解！進行状況を保存しました。";
+    $("submitButton").disabled=true;input.disabled=true;$("hintButton").disabled=true;
+    $("nextActions").hidden=false;
+    $("nextButton").textContent=currentIndex===questions.length-1?"クリア画面へ":"次の問題へ　»";
+    updateProgress();
+  }else{$("feedback").textContent="不正解です。もう一度考えてみよう！";}
+});
+$("hintButton").addEventListener("click",()=>{
+  const hints=questions[currentIndex].hints||[];if(hintsShown>=hints.length)return;
+  $("hintBox").textContent=hints.slice(0,hintsShown+1).join("\n");$("hintBox").hidden=false;hintsShown++;
+  if(hintsShown<hints.length)$("hintButton").textContent=`ヒント${hintsShown+1}を見る　›`;
+  else{$("hintButton").textContent="ヒントは以上です";$("hintButton").disabled=true;}
+});
+$("nextButton").addEventListener("click",()=>{if(!solved)return;currentIndex++;saveProgress();renderQuestion();});
+$("restartButton").addEventListener("click",()=>{
+  currentIndex=0;solvedQuestions=new Set();solved=false;
+  try{localStorage.removeItem(STORAGE_KEY);}catch{}
+  $("completeScreen").hidden=true;$("game").hidden=false;renderQuestion();
+});
+if(currentIndex>=questions.length)showComplete();else renderQuestion();
+</script>
 </body>
 </html>
