@@ -106,14 +106,14 @@ button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
     <div class="film-holes" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
     <div class="seal" aria-hidden="true"></div>
     <p class="poster-kicker">〈中級〉</p>
-    <h1 class="poster-title">消された遺産と</h1>
+    <h1 class="poster-title">隠された遺産と</h1>
     <p class="poster-subtitle">最後の暗号</p>
     <div class="poster-bottom"><span>追手門学院大学　文芸部</span><span>SECRET FILE // 05</span></div>
   </header>
   <div class="film-holes" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
 
   <p class="intro">ARCHIVE ACCESS // PUZZLE TERMINAL</p>
-  <div class="system-note"><strong>MISSION:</strong> 5つの謎を解き、失われた記録を復元せよ。</div>
+  <div class="system-note"><strong>MISSION:</strong> 5つの謎を解き、隠された遺産を探せ。</div>
   <div class="status"><span>● CONNECTION: <b>ENCRYPTED</b></span><span>LOCAL SAVE // ENABLED</span></div>
 
   <section id="game">
@@ -136,16 +136,16 @@ button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
   </section>
 
   <section id="completeScreen" class="complete" hidden>
-    <h2>ARCHIVE RESTORED</h2>
-    <p>すべての謎が解除されました。記録の復元に成功しました。</p>
-    <button class="primary" type="button" id="restartButton">最初から再挑戦する</button>
+    <h2>MISSION COMPLETE</h2>
+    <p>キーワードはイチオク。</p>
+    <button class="primary" type="button" id="restartButton">最初から挑戦する</button>
   </section>
 
   <section class="terminal-footer" aria-label="システム情報">
     <div><strong>SYSTEM LOG</strong><p>&gt; progress_save : ON</p><p>&gt; device_storage : LOCAL</p><p>&gt; solved_records : AUTO UPDATE</p><p>&gt; connection_status : SECURE</p></div>
-    <div class="stay-hidden">真実は、記録の中に。<span>_</span></div>
+    <div class="stay-hidden">君は遺産を見つけられるか。<span>_</span></div>
   </section>
-  <p class="footer-note">※ 問題文は配布資料をご覧ください。回答とヒントは各問題の設定に合わせて編集してください。</p>
+  <p class="footer-note">※ 問題文は配布資料をご覧ください。</p>
 </main>
 <script>
 const EVENT_ID = "nazotoki-event-2026";
@@ -154,30 +154,33 @@ const STORAGE_KEY = `${EVENT_ID}:progress`;
 // 問題1〜3はこれまでの設定を維持しています。
 // 問題4・5は仮のサンプルです。イベントの問題に合わせて answers / hints を変更してください。
 const questions = [
-  { answers:["フライパン"], hints:[
-    "ヒント1：料理をするときに使う道具です。",
-    "ヒント2：フライ返しと一緒に使うことがあります。",
-    "ヒント3：「フライ〇〇」といいます。"
+  { answers:["わいろ","賄賂","ワイロ"], hints:[
+    "ヒント1：なんで背景が青なんだろうか。",
+    "ヒント2：3つの漢字の左に漢字が入りそうだ。",
+    "ヒント3：魚をつけてみよう。"
   ]},
-  { answers:["イルカ"], hints:[
-    "ヒント1：海にすむ動物です。",
-    "ヒント2：頭がよく、ジャンプが得意です。",
-    "ヒント3：「イ」から始まる3文字の動物です。"
+  { answers:["憶測","おくそく"], hints:[
+    "ヒント1：10のタテは相葉○○○。",
+    "ヒント2：3のタテは頭部だ。",
+    "ヒント3：1のヨコはエフェクトだ。"
   ]},
-  { answers:["星","ほし"], hints:[
-    "ヒント1：夜空に見えるものです。",
-    "ヒント2：晴れた夜にたくさん見つかります。",
-    "ヒント3：「ほ〇」と読みます。"
+  { answers:["飛行機","ひこうき"], hints:[
+    "ヒント1：真ん中の丸は一周しているな。",
+    "ヒント2：アルファベットは線を示している。",
+    "ヒント3：数字は駅番号を表している。",
+    "ヒント4：頭文字を繋げよう。"
   ]},
-  { answers:["かぎ","鍵"], hints:[
-    "ヒント1：扉を開けるときに使います。",
-    "ヒント2：なくすと困る小さな道具です。",
-    "ヒント3：「か〇」と読みます。"
+  { answers:["1658"], hints:[
+    "ヒント1：3つに分かれているのが大事だ。",
+    "ヒント2：3つの地名の共通点は何だろう。",
+    "ヒント3：地名の並びは時系列順だ。",
+    "ヒント4：地名の共通点はとある大会の開催地だ。",
+    "ヒント5：オリンピック2020の日本代表は合計58個のメダルを獲得したはずだ。"
   ]},
-  { answers:["月","つき"], hints:[
-    "ヒント1：夜空に見えることがあります。",
-    "ヒント2：満ち欠けします。",
-    "ヒント3：「つ〇」と読みます。"
+  { answers:["BNC208"], hints:[
+    "ヒント1：曜日を大小で比べるのはおかしくないか。",
+    "ヒント2：火星・彗星…。太陽か？",
+    "ヒント3：太陽が一番大きく、一番内側だとすると縦が6横が1となり、重なるのは…。"
   ]}
 ];
 
